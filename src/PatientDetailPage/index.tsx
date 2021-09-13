@@ -5,7 +5,7 @@ import { Icon } from "semantic-ui-react";
 
 import { PatientDetail } from "../types";
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
+import { useStateValue, addPatientDetail } from "../state";
 
 const PatientDetailPage = () => {
   const [{ patientDetails }, dispatch] = useStateValue();
@@ -17,7 +17,7 @@ const PatientDetailPage = () => {
       const { data: newPatientDetail } = await axios.get<PatientDetail>(
         `${apiBaseUrl}/patients/${id}`
       );
-      dispatch({ type: "ADD_PATIENT_DETAIL", payload: newPatientDetail });
+      dispatch(addPatientDetail(newPatientDetail));
     };
     if (!patient) {
       void fetchPatientDetail();
