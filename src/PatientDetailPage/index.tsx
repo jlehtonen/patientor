@@ -8,7 +8,7 @@ import { apiBaseUrl } from "../constants";
 import { useStateValue, addPatientDetail } from "../state";
 
 const PatientDetailPage = () => {
-  const [{ patientDetails }, dispatch] = useStateValue();
+  const [{ patientDetails, diagnoses }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
   const patient = patientDetails[id];
 
@@ -24,7 +24,7 @@ const PatientDetailPage = () => {
     }
   }, [id]);
 
-  if (!patient) {
+  if (!patient || Object.keys(diagnoses).length === 0) {
     return null;
   }
 
@@ -43,7 +43,11 @@ const PatientDetailPage = () => {
           </div>
           <ul>
             {entry.diagnosisCodes
-              ? entry.diagnosisCodes.map(code => <li key={code}>{code}</li>)
+              ? entry.diagnosisCodes.map(code => (
+                  <li key={code}>
+                    {code} {diagnoses[code].name}
+                  </li>
+                ))
               : null}
           </ul>
         </div>
