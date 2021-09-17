@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Link } from "react-router-dom";
 import { Container, Table, Button } from "semantic-ui-react";
 
@@ -31,7 +31,8 @@ const PatientListPage = () => {
       );
       dispatch(addPatient(newPatient));
       closeModal();
-    } catch (e) {
+    } catch (_e) {
+      const e = _e as AxiosError;
       console.error(e.response?.data || "Unknown Error");
       setError(e.response?.data?.error || "Unknown error");
     }
